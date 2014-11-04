@@ -23,7 +23,12 @@
  #include "WProgram.h"
 #endif
 
-#include <Wire.h>
+#ifdef __AVR_ATtiny85__
+ #include "TinyWireM.h"
+ #define Wire TinyWireM
+#else
+ #include <Wire.h>
+#endif
 
 /*=========================================================================
     I2C ADDRESS/BITS
