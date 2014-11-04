@@ -24,10 +24,9 @@
 #endif
 
 #ifdef __AVR_ATtiny85__
- #include "TinyWireM.h"
- #define Wire TinyWireM
+#include <TinyWireM.h>
 #else
- #include <Wire.h>
+#include <Wire.h>
 #endif
 
 /*=========================================================================
