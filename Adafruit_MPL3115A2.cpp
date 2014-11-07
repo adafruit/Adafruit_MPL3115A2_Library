@@ -108,7 +108,7 @@ float Adafruit_MPL3115A2::getPressure() {
 }
 
 float Adafruit_MPL3115A2::getAltitude() {
-  uint32_t alt;
+  int32_t alt;
 
   write8(MPL3115A2_CTRL_REG1, 
 	 MPL3115A2_CTRL_REG1_SBYB |
@@ -135,6 +135,10 @@ float Adafruit_MPL3115A2::getAltitude() {
   alt <<= 8;
   alt |= Wire.read(); // receive DATA
   alt >>= 4;
+
+  if (alt & 0x800000) {
+    alt |= 0xFF000000;
+  }
 
   float altitude = alt;
   altitude /= 16.0;
