@@ -24,7 +24,12 @@
  #include "WProgram.h"
 #endif
 
+#ifdef __AVR_ATtiny85__
+#include <TinyWireM.h>
+#define Wire TinyWireM
+#else
 #include <Wire.h>
+#endif
 
 #include "Adafruit_MPL3115A2.h"
 
@@ -80,7 +85,11 @@ float Adafruit_MPL3115A2::getPressure() {
   }
   Wire.beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
   Wire.write(MPL3115A2_REGISTER_PRESSURE_MSB); 
+#ifdef __AVR_ATtiny85__
+  Wire.endTransmission(); // end transmission
+#else
   Wire.endTransmission(false); // end transmission
+#endif  
   
   Wire.requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)3);// send data n-bytes read
   pressure = Wire.read(); // receive DATA
@@ -96,7 +105,7 @@ float Adafruit_MPL3115A2::getPressure() {
 }
 
 float Adafruit_MPL3115A2::getAltitude() {
-  uint32_t alt;
+  int32_t alt;
 
   write8(MPL3115A2_CTRL_REG1, 
 	 MPL3115A2_CTRL_REG1_SBYB |
@@ -110,7 +119,11 @@ float Adafruit_MPL3115A2::getAltitude() {
   }
   Wire.beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
   Wire.write(MPL3115A2_REGISTER_PRESSURE_MSB); 
+#ifdef __AVR_ATtiny85__
+  Wire.endTransmission(); // end transmission
+#else
   Wire.endTransmission(false); // end transmission
+#endif  
   
   Wire.requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)3);// send data n-bytes read
   alt = Wire.read(); // receive DATA
@@ -119,6 +132,10 @@ float Adafruit_MPL3115A2::getAltitude() {
   alt <<= 8;
   alt |= Wire.read(); // receive DATA
   alt >>= 4;
+
+  if (alt & 0x800000) {
+    alt |= 0xFF000000;
+  }
 
   float altitude = alt;
   altitude /= 16.0;
@@ -140,7 +157,11 @@ float Adafruit_MPL3115A2::getTemperature() {
   }
   Wire.beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
   Wire.write(MPL3115A2_REGISTER_TEMP_MSB); 
+#ifdef __AVR_ATtiny85__
+  Wire.endTransmission(); // end transmission
+#else
   Wire.endTransmission(false); // end transmission
+#endif  
   
   Wire.requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)2);// send data n-bytes read
   t = Wire.read(); // receive DATA
@@ -161,7 +182,11 @@ float Adafruit_MPL3115A2::getTemperature() {
 uint8_t Adafruit_MPL3115A2::read8(uint8_t a) {
   Wire.beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
   Wire.write(a); // sends register address to read from
+#ifdef __AVR_ATtiny85__
+  Wire.endTransmission(); // end transmission
+#else
   Wire.endTransmission(false); // end transmission
+#endif  
   
   Wire.requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)1);// send data n-bytes read
   return Wire.read(); // receive DATA
@@ -171,5 +196,9 @@ void Adafruit_MPL3115A2::write8(uint8_t a, uint8_t d) {
   Wire.beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
   Wire.write(a); // sends register address to write to
   Wire.write(d); // sends register data
+#ifdef __AVR_ATtiny85__
+  Wire.endTransmission(); // end transmission
+#else
   Wire.endTransmission(false); // end transmission
+#endif  
 }
