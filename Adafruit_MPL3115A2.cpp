@@ -50,9 +50,6 @@ Adafruit_MPL3115A2::Adafruit_MPL3115A2() {
 boolean Adafruit_MPL3115A2::begin() {
   Wire.begin();
   uint8_t whoami = read8(MPL3115A2_WHOAMI);
-#ifndef __AVR_ATtiny85__
-  Serial.println(whoami, HEX);
-#endif
   if (whoami != 0xC4) {
     return false;
   }
@@ -196,10 +193,6 @@ uint8_t Adafruit_MPL3115A2::read8(uint8_t a) {
 }
 
 void Adafruit_MPL3115A2::write8(uint8_t a, uint8_t d) {
-#ifndef __AVR_ATtiny85__
-  Serial.print("Writing $"); Serial.print(a, HEX); 
-  Serial.print(" = 0x"); Serial.println(d, HEX);
-#endif
   Wire.beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
   Wire.write(a); // sends register address to write to
   Wire.write(d); // sends register data
