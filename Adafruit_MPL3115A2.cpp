@@ -129,6 +129,20 @@ float Adafruit_MPL3115A2::getAltitude() {
 
 /**************************************************************************/
 /*!
+    @brief  Set the local sea level barometric pressure
+*/
+/**************************************************************************/
+void Adafruit_MPL3115A2::setSeaPressure(float pascal) {
+  uint16_t bar = pascal/2;
+  Wire.beginTransmission(MPL3115A2_ADDRESS);
+  Wire.write((uint8_t)MPL3115A2_BAR_IN_MSB);
+  Wire.write((uint8_t)(bar>>8));
+  Wire.write((uint8_t)bar);
+  Wire.endTransmission(false);
+}
+
+/**************************************************************************/
+/*!
     @brief  Gets the floating-point temperature in Centigrade
 */
 /**************************************************************************/

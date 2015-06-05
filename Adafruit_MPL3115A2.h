@@ -59,6 +59,9 @@
     #define MPL3115A2_OUT_T_DELTA_MSB               (0x0A)
     #define MPL3115A2_OUT_T_DELTA_LSB               (0x0B)
 
+    #define MPL3115A2_BAR_IN_MSB                    (0x14)
+    #define MPL3115A2_BAR_IN_LSB                    (0x15)
+
     #define MPL3115A2_WHOAMI                        (0x0C)
 
 #define MPL3115A2_PT_DATA_CFG 0x13
@@ -96,6 +99,7 @@ class Adafruit_MPL3115A2{
   float getPressure(void);
   float getAltitude(void);
   float getTemperature(void);
+  void setSeaPressure(float pascal);
 
   void write8(uint8_t a, uint8_t d);
 
