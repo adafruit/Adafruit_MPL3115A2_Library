@@ -118,19 +118,12 @@ float Adafruit_MPL3115A2::getAltitude() {
   Wire.endTransmission(false); // end transmission
   
   Wire.requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)3);// send data n-bytes read
-  alt = Wire.read(); // receive DATA
-  alt <<= 8;
-  alt |= Wire.read(); // receive DATA
-  alt <<= 8;
-  alt |= Wire.read(); // receive DATA
-  alt >>= 4;
-
-  if (alt & 0x800000) {
-    alt |= 0xFF000000;
-  }
+  alt  = ((uint32_t)Wire.read()) << 24; // receive DATA
+  alt |= ((uint32_t)Wire.read()) << 16; // receive DATA
+  alt |= ((uint32_t)Wire.read()) << 8; // receive DATA
 
   float altitude = alt;
-  altitude /= 16.0;
+  altitude /= 65536.0;
   return altitude;
 }
 
