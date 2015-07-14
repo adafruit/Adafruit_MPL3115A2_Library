@@ -73,6 +73,8 @@ boolean Adafruit_MPL3115A2::begin() {
 float Adafruit_MPL3115A2::getPressure() {
   uint32_t pressure;
 
+  read8(MPL3115A2_REGISTER_PRESSURE_MSB);  // clear out debris and reset PDR flag
+
   write8(MPL3115A2_CTRL_REG1, 
 	 MPL3115A2_CTRL_REG1_SBYB |
 	 MPL3115A2_CTRL_REG1_OS128 |
