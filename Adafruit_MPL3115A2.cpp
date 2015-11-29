@@ -140,7 +140,7 @@ float Adafruit_MPL3115A2::getAltitude() {
 */
 /**************************************************************************/
 float Adafruit_MPL3115A2::getTemperature() {
-  uint16_t t;
+  int16_t t;
 
   uint8_t sta = 0;
   while (! (sta & MPL3115A2_REGISTER_STATUS_TDR)) {
@@ -156,6 +156,10 @@ float Adafruit_MPL3115A2::getTemperature() {
   t <<= 8;
   t |= Wire.read(); // receive DATA
   t >>= 4;
+  
+  if (t & 0x800) {
+    t |= 0xF000;
+  }
 
   float temp = t;
   temp /= 16.0;
