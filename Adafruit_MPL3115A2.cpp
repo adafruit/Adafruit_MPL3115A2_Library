@@ -62,10 +62,15 @@ boolean Adafruit_MPL3115A2::begin(TwoWire *twoWire) {
     return false;
   }
 
-  write8(MPL3115A2_CTRL_REG1,
-	 MPL3115A2_CTRL_REG1_SBYB |
-	 MPL3115A2_CTRL_REG1_OS128 |
-	 MPL3115A2_CTRL_REG1_ALT);
+  write8(MPL3115A2_CTRL_REG1, MPL3115A2_CTRL_REG1_RST);
+  delay(10);
+
+  while(read8(MPL3115A2_CTRL_REG1) & MPL3115A2_CTRL_REG1_RST) delay(10);
+
+  _ctrl_reg1.reg = MPL3115A2_CTRL_REG1_OS128 | MPL3115A2_CTRL_REG1_ALT;
+
+  write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
+
   write8(MPL3115A2_PT_DATA_CFG, 
 	 MPL3115A2_PT_DATA_CFG_TDEFE |
 	 MPL3115A2_PT_DATA_CFG_PDEFE |
@@ -82,10 +87,13 @@ boolean Adafruit_MPL3115A2::begin(TwoWire *twoWire) {
 float Adafruit_MPL3115A2::getPressure() {
   uint32_t pressure;
 
-  write8(MPL3115A2_CTRL_REG1, 
-	 MPL3115A2_CTRL_REG1_SBYB |
-	 MPL3115A2_CTRL_REG1_OS128 |
-	 MPL3115A2_CTRL_REG1_BAR);
+  while(read8(MPL3115A2_CTRL_REG1) & MPL3115A2_CTRL_REG1_OST) delay(10);
+
+  _ctrl_reg1.bit.ALT = 0;
+  write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
+
+  _ctrl_reg1.bit.OST = 1;
+  write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
 
   uint8_t sta = 0;
   while (! (sta & MPL3115A2_REGISTER_STATUS_PDR)) {
@@ -118,10 +126,13 @@ float Adafruit_MPL3115A2::getPressure() {
 float Adafruit_MPL3115A2::getAltitude() {
   int32_t alt;
 
-  write8(MPL3115A2_CTRL_REG1, 
-	 MPL3115A2_CTRL_REG1_SBYB |
-	 MPL3115A2_CTRL_REG1_OS128 |
-	 MPL3115A2_CTRL_REG1_ALT);
+  while(read8(MPL3115A2_CTRL_REG1) & MPL3115A2_CTRL_REG1_OST) delay(10);
+
+  _ctrl_reg1.bit.ALT = 1;
+  write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
+
+  _ctrl_reg1.bit.OST = 1;
+  write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
 
   uint8_t sta = 0;
   while (! (sta & MPL3115A2_REGISTER_STATUS_PDR)) {

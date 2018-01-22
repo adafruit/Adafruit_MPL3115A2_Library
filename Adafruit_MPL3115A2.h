@@ -153,4 +153,17 @@ class Adafruit_MPL3115A2{
   uint8_t read8(uint8_t a);
   uint8_t mode;
 
+  typedef union {
+    struct {
+        uint8_t SBYB:1;
+        uint8_t OST:1;
+        uint8_t RST:1;
+        uint8_t OS:3;
+        uint8_t RAW:1;
+        uint8_t ALT:1;
+    } bit;
+    uint8_t reg;
+  } ctrl_reg1;
+  ctrl_reg1 _ctrl_reg1;
+
 };
