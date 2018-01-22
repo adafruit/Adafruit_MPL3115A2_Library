@@ -1,35 +1,40 @@
-/**************************************************************************/
 /*!
-    @file     Adafruit_MPL3115A2.cpp
-    @author   K.Townsend (Adafruit Industries)
-    @license  BSD (see license.txt)
+ * @file Adafruit_MPL3115A2.cpp
+ *
+ * @mainpage Adafruit MPL3115A2 alitmeter
+ *
+ * @section intro_sec Introduction
+ *
+ * This is the documentation for Adafruit's MPL3115A2 driver for the
+ * Arduino platform.  It is designed specifically to work with the
+ * Adafruit MPL3115A2 breakout: https://www.adafruit.com/products/1893
+ *
+ * These sensors use I2C to communicate, 2 pins (SCL+SDA) are required
+ * to interface with the breakout.
+ *
+ * Adafruit invests time and resources providing this open source code,
+ * please support Adafruit and open-source hardware by purchasing
+ * products from Adafruit!
+ *
+ * @section dependencies Dependencies
+ *
+ * @section author Author
+ *
+ * Written by Kevin "KTOWN" Townsend for Adafruit Industries.
+ *
+ * @section license License
+ *
+ * BSD license, all text here must be included in any redistribution.
+ *
+ */
 
-    Driver for the MPL3115A2 barometric pressure sensor
-
-    This is a library for the Adafruit MPL3115A2 breakout
-    ----> https://www.adafruit.com/products/1893
-
-    Adafruit invests time and resources providing this open source code,
-    please support Adafruit and open-source hardware by purchasing
-    products from Adafruit!
-
-    @section  HISTORY
-
-    v1.0 - First release
-*/
-/**************************************************************************/
 #if ARDUINO >= 100
  #include "Arduino.h"
 #else
  #include "WProgram.h"
 #endif
 
-#ifdef __AVR_ATtiny85__
- #include <TinyWireM.h>
- #define Wire TinyWireM
-#else
- #include <Wire.h>
-#endif
+#include <Wire.h>
 
 #include "Adafruit_MPL3115A2.h"
 
@@ -45,10 +50,13 @@ Adafruit_MPL3115A2::Adafruit_MPL3115A2() {
 /**************************************************************************/
 /*!
     @brief  Setups the HW (reads coefficients values, etc.)
+    @param twoWire Optional TwoWire I2C object
+    @return true on successful startup, false otherwise
 */
 /**************************************************************************/
-boolean Adafruit_MPL3115A2::begin() {
-  Wire.begin();
+boolean Adafruit_MPL3115A2::begin(TwoWire *twoWire) {
+  _i2c = twoWire;
+  _i2c->begin();
   uint8_t whoami = read8(MPL3115A2_WHOAMI);
   if (whoami != 0xC4) {
     return false;
@@ -68,6 +76,7 @@ boolean Adafruit_MPL3115A2::begin() {
 /**************************************************************************/
 /*!
     @brief  Gets the floating-point pressure level in kPa
+    @return altitude reading as a floating point value
 */
 /**************************************************************************/
 float Adafruit_MPL3115A2::getPressure() {
@@ -83,16 +92,16 @@ float Adafruit_MPL3115A2::getPressure() {
     sta = read8(MPL3115A2_REGISTER_STATUS);
     delay(10);
   }
-  Wire.beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
-  Wire.write(MPL3115A2_REGISTER_PRESSURE_MSB); 
-  Wire.endTransmission(false); // end transmission
+  _i2c->beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
+  _i2c->write(MPL3115A2_REGISTER_PRESSURE_MSB); 
+  _i2c->endTransmission(false); // end transmission
   
-  Wire.requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)3);// send data n-bytes read
-  pressure = Wire.read(); // receive DATA
+  _i2c->requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)3);// send data n-bytes read
+  pressure = _i2c->read(); // receive DATA
   pressure <<= 8;
-  pressure |= Wire.read(); // receive DATA
+  pressure |= _i2c->read(); // receive DATA
   pressure <<= 8;
-  pressure |= Wire.read(); // receive DATA
+  pressure |= _i2c->read(); // receive DATA
   pressure >>= 4;
 
   float baro = pressure;
@@ -100,6 +109,12 @@ float Adafruit_MPL3115A2::getPressure() {
   return baro;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Gets the floating-point altitude value
+    @return altitude reading as a floating-point value
+*/
+/**************************************************************************/
 float Adafruit_MPL3115A2::getAltitude() {
   int32_t alt;
 
@@ -113,16 +128,16 @@ float Adafruit_MPL3115A2::getAltitude() {
     sta = read8(MPL3115A2_REGISTER_STATUS);
     delay(10);
   }
-  Wire.beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
-  Wire.write(MPL3115A2_REGISTER_PRESSURE_MSB); 
-  Wire.endTransmission(false); // end transmission
+  _i2c->beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
+  _i2c->write(MPL3115A2_REGISTER_PRESSURE_MSB); 
+  _i2c->endTransmission(false); // end transmission
   
-  Wire.requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)3);// send data n-bytes read
-  alt = Wire.read(); // receive DATA
+  _i2c->requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)3);// send data n-bytes read
+  alt = _i2c->read(); // receive DATA
   alt <<= 8;
-  alt |= Wire.read(); // receive DATA
+  alt |= _i2c->read(); // receive DATA
   alt <<= 8;
-  alt |= Wire.read(); // receive DATA
+  alt |= _i2c->read(); // receive DATA
   alt >>= 4;
 
   if (alt & 0x80000) {
@@ -137,6 +152,7 @@ float Adafruit_MPL3115A2::getAltitude() {
 /**************************************************************************/
 /*!
     @brief  Gets the floating-point temperature in Centigrade
+    @return temperature reading in Centigrade as a floating-point value
 */
 /**************************************************************************/
 float Adafruit_MPL3115A2::getTemperature() {
@@ -147,14 +163,14 @@ float Adafruit_MPL3115A2::getTemperature() {
     sta = read8(MPL3115A2_REGISTER_STATUS);
     delay(10);
   }
-  Wire.beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
-  Wire.write(MPL3115A2_REGISTER_TEMP_MSB); 
-  Wire.endTransmission(false); // end transmission
+  _i2c->beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
+  _i2c->write(MPL3115A2_REGISTER_TEMP_MSB); 
+  _i2c->endTransmission(false); // end transmission
   
-  Wire.requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)2);// send data n-bytes read
-  t = Wire.read(); // receive DATA
+  _i2c->requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)2);// send data n-bytes read
+  t = _i2c->read(); // receive DATA
   t <<= 8;
-  t |= Wire.read(); // receive DATA
+  t |= _i2c->read(); // receive DATA
   t >>= 4;
 
   float temp = t;
@@ -165,20 +181,32 @@ float Adafruit_MPL3115A2::getTemperature() {
 
 
 
-/*********************************************************************/
-
+/**************************************************************************/
+/*!
+    @brief  read 1 byte of data at the specified address
+    @param a the address to read
+    @return the read data byte
+*/
+/**************************************************************************/
 uint8_t Adafruit_MPL3115A2::read8(uint8_t a) {
-  Wire.beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
-  Wire.write(a); // sends register address to read from
-  Wire.endTransmission(false); // end transmission
+  _i2c->beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
+  _i2c->write(a); // sends register address to read from
+  _i2c->endTransmission(false); // end transmission
   
-  Wire.requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)1);// send data n-bytes read
-  return Wire.read(); // receive DATA
+  _i2c->requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)1);// send data n-bytes read
+  return _i2c->read(); // receive DATA
 }
 
+/**************************************************************************/
+/*!
+    @brief  write a byte of data to the specified address
+    @param a the address to write to
+    @param d the byte to write
+*/
+/**************************************************************************/
 void Adafruit_MPL3115A2::write8(uint8_t a, uint8_t d) {
-  Wire.beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
-  Wire.write(a); // sends register address to write to
-  Wire.write(d); // sends register data
-  Wire.endTransmission(false); // end transmission
+  _i2c->beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
+  _i2c->write(a); // sends register address to write to
+  _i2c->write(d); // sends register data
+  _i2c->endTransmission(false); // end transmission
 }
