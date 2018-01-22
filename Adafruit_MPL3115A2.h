@@ -86,31 +86,48 @@ enum {
 
 /**************************************************************************/
 /*!
-    @brief  MPL3115A2 control register bits
+    @brief  MPL3115A2 control registers
 */
 /**************************************************************************/
 enum {
+
     MPL3115A2_CTRL_REG1     =    (0x26),
-    MPL3115A2_CTRL_REG1_SBYB   = 0x01,
-    MPL3115A2_CTRL_REG1_OST     = 0x02,
-    MPL3115A2_CTRL_REG1_RST      = 0x04,
-    MPL3115A2_CTRL_REG1_OS1     = 0x00,
-    MPL3115A2_CTRL_REG1_OS2     = 0x08,
-    MPL3115A2_CTRL_REG1_OS4     = 0x10,
-    MPL3115A2_CTRL_REG1_OS8     =0x18,
-    MPL3115A2_CTRL_REG1_OS16        = 0x20,
-    MPL3115A2_CTRL_REG1_OS32        = 0x28,
-    MPL3115A2_CTRL_REG1_OS64        = 0x30,
-    MPL3115A2_CTRL_REG1_OS128       = 0x38,
-    MPL3115A2_CTRL_REG1_RAW     = 0x40,
-    MPL3115A2_CTRL_REG1_ALT     = 0x80,
-    MPL3115A2_CTRL_REG1_BAR     = 0x00,
     MPL3115A2_CTRL_REG2         =   (0x27),
     MPL3115A2_CTRL_REG3         =   (0x28),
     MPL3115A2_CTRL_REG4         =   (0x29),
     MPL3115A2_CTRL_REG5         =    (0x2A),
 };
 
+/**************************************************************************/
+/*!
+    @brief  MPL3115A2 control register bits
+*/
+/**************************************************************************/
+enum {
+    MPL3115A2_CTRL_REG1_SBYB   = 0x01,
+    MPL3115A2_CTRL_REG1_OST     = 0x02,
+    MPL3115A2_CTRL_REG1_RST      = 0x04,
+    MPL3115A2_CTRL_REG1_RAW     = 0x40,
+    MPL3115A2_CTRL_REG1_ALT     = 0x80,
+    MPL3115A2_CTRL_REG1_BAR     = 0x00,
+};
+
+
+/**************************************************************************/
+/*!
+    @brief  MPL3115A2 oversample values
+*/
+/**************************************************************************/
+enum {
+    MPL3115A2_CTRL_REG1_OS1     = 0x00,
+    MPL3115A2_CTRL_REG1_OS2     = 0x08,
+    MPL3115A2_CTRL_REG1_OS4     = 0x10,
+    MPL3115A2_CTRL_REG1_OS8     = 0x18,
+    MPL3115A2_CTRL_REG1_OS16        = 0x20,
+    MPL3115A2_CTRL_REG1_OS32        = 0x28,
+    MPL3115A2_CTRL_REG1_OS64        = 0x30,
+    MPL3115A2_CTRL_REG1_OS128       = 0x38,
+};
 
 
 #define MPL3115A2_REGISTER_STARTCONVERSION (0x12) ///< start conversion
