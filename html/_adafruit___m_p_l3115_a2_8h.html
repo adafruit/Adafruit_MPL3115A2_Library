@@ -126,32 +126,41 @@ Enumerations</h2></td></tr>
 <tr class="separator:a99fb83031ce9923c84392b4e92f956b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc6126af1d45847bc59afa0aa3216b04"><td class="memItemLeft" align="right" valign="top"><a id="abc6126af1d45847bc59afa0aa3216b04"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
 &#160;&#160;<b>MPL3115A2_CTRL_REG1</b> = (0x26), 
-<b>MPL3115A2_CTRL_REG1_SBYB</b> = 0x01, 
+<b>MPL3115A2_CTRL_REG2</b> = (0x27), 
+<b>MPL3115A2_CTRL_REG3</b> = (0x28), 
+<b>MPL3115A2_CTRL_REG4</b> = (0x29), 
+<br />
+&#160;&#160;<b>MPL3115A2_CTRL_REG5</b> = (0x2A)
+<br />
+ }<tr class="memdesc:abc6126af1d45847bc59afa0aa3216b04"><td class="mdescLeft">&#160;</td><td class="mdescRight">MPL3115A2 control registers. <br /></td></tr>
+</td></tr>
+<tr class="separator:abc6126af1d45847bc59afa0aa3216b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc29c2ff13d900c2f185ee95427fb06c"><td class="memItemLeft" align="right" valign="top"><a id="adc29c2ff13d900c2f185ee95427fb06c"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+&#160;&#160;<b>MPL3115A2_CTRL_REG1_SBYB</b> = 0x01, 
 <b>MPL3115A2_CTRL_REG1_OST</b> = 0x02, 
 <b>MPL3115A2_CTRL_REG1_RST</b> = 0x04, 
+<b>MPL3115A2_CTRL_REG1_RAW</b> = 0x40, 
 <br />
+&#160;&#160;<b>MPL3115A2_CTRL_REG1_ALT</b> = 0x80, 
+<b>MPL3115A2_CTRL_REG1_BAR</b> = 0x00
+<br />
+ }<tr class="memdesc:adc29c2ff13d900c2f185ee95427fb06c"><td class="mdescLeft">&#160;</td><td class="mdescRight">MPL3115A2 control register bits. <br /></td></tr>
+</td></tr>
+<tr class="separator:adc29c2ff13d900c2f185ee95427fb06c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61dadd085c1777f559549e05962b2c9e"><td class="memItemLeft" align="right" valign="top"><a id="a61dadd085c1777f559549e05962b2c9e"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
 &#160;&#160;<b>MPL3115A2_CTRL_REG1_OS1</b> = 0x00, 
 <b>MPL3115A2_CTRL_REG1_OS2</b> = 0x08, 
 <b>MPL3115A2_CTRL_REG1_OS4</b> = 0x10, 
-<b>MPL3115A2_CTRL_REG1_OS8</b> =0x18, 
+<b>MPL3115A2_CTRL_REG1_OS8</b> = 0x18, 
 <br />
 &#160;&#160;<b>MPL3115A2_CTRL_REG1_OS16</b> = 0x20, 
 <b>MPL3115A2_CTRL_REG1_OS32</b> = 0x28, 
 <b>MPL3115A2_CTRL_REG1_OS64</b> = 0x30, 
-<b>MPL3115A2_CTRL_REG1_OS128</b> = 0x38, 
+<b>MPL3115A2_CTRL_REG1_OS128</b> = 0x38
 <br />
-&#160;&#160;<b>MPL3115A2_CTRL_REG1_RAW</b> = 0x40, 
-<b>MPL3115A2_CTRL_REG1_ALT</b> = 0x80, 
-<b>MPL3115A2_CTRL_REG1_BAR</b> = 0x00, 
-<b>MPL3115A2_CTRL_REG2</b> = (0x27), 
-<br />
-&#160;&#160;<b>MPL3115A2_CTRL_REG3</b> = (0x28), 
-<b>MPL3115A2_CTRL_REG4</b> = (0x29), 
-<b>MPL3115A2_CTRL_REG5</b> = (0x2A)
-<br />
- }<tr class="memdesc:abc6126af1d45847bc59afa0aa3216b04"><td class="mdescLeft">&#160;</td><td class="mdescRight">MPL3115A2 control register bits. <br /></td></tr>
+ }<tr class="memdesc:a61dadd085c1777f559549e05962b2c9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">MPL3115A2 oversample values. <br /></td></tr>
 </td></tr>
-<tr class="separator:abc6126af1d45847bc59afa0aa3216b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a61dadd085c1777f559549e05962b2c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This is part of Adafruit's MPL3115A2 driver for the Arduino platform. It is designed specifically to work with the Adafruit MPL3115A2 breakout: <a href="https://www.adafruit.com/products/1893">https://www.adafruit.com/products/1893</a></p>
