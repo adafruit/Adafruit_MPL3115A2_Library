@@ -1,4 +1,4 @@
-# Adafruit MPL3115A2 Library [![Build Status](https://travis-ci.org/adafruit/Adafruit_MPL3115A2.svg?branch=master)](https://travis-ci.org/adafruit/Adafruit_MPL3115A2)
+# Adafruit MPL3115A2 Library [![Build Status](https://travis-ci.org/adafruit/Adafruit_MPL3115A2_Library.svg?branch=master)](https://travis-ci.org/adafruit/Adafruit_MPL3115A2_Library)
 
 <img src="https://cdn-shop.adafruit.com/970x728/1893-02.jpg" height="300"/>
 
