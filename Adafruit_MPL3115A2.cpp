@@ -143,21 +143,30 @@ float Adafruit_MPL3115A2::getAltitude() {
   _i2c->write(MPL3115A2_REGISTER_PRESSURE_MSB); 
   _i2c->endTransmission(false); // end transmission
   
-  _i2c->requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)3);// send data n-bytes read
-  alt = _i2c->read(); // receive DATA
-  alt <<= 8;
-  alt |= _i2c->read(); // receive DATA
-  alt <<= 8;
-  alt |= _i2c->read(); // receive DATA
-  alt >>= 4;
 
-  if (alt & 0x80000) {
-    alt |= 0xFFF00000;
-  }
+  _i2c->requestFrom((uint8_t)MPL3115A2_ADDRESS, (uint8_t)3);// send data n-bytes read
+  alt  = ((uint32_t)_i2c->read()) << 24; // receive DATA
+  alt |= ((uint32_t)_i2c->read()) << 16; // receive DATA
+  alt |= ((uint32_t)_i2c->read()) << 8; // receive DATA
 
   float altitude = alt;
-  altitude /= 16.0;
+  altitude /= 65536.0;
   return altitude;
+}
+
+/**************************************************************************/
+/*!
+    @brief  Set the local sea level barometric pressure
+    @param pascal the pressure to use as the baseline
+*/
+/**************************************************************************/
+void Adafruit_MPL3115A2::setSeaPressure(float pascal) {
+  uint16_t bar = pascal/2;
+  _i2c->beginTransmission(MPL3115A2_ADDRESS);
+  _i2c->write((uint8_t)MPL3115A2_BAR_IN_MSB);
+  _i2c->write((uint8_t)(bar>>8));
+  _i2c->write((uint8_t)bar);
+  _i2c->endTransmission(false);
 }
 
 /**************************************************************************/

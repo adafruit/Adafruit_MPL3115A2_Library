@@ -58,6 +58,9 @@ enum {
     MPL3115A2_OUT_T_DELTA_LSB        =       (0x0B),
 
     MPL3115A2_WHOAMI            =            (0x0C),
+
+    MPL3115A2_BAR_IN_MSB         =           (0x14),
+    MPL3115A2_BAR_IN_LSB         =           (0x15),
 };
 
 /**************************************************************************/
@@ -145,6 +148,7 @@ class Adafruit_MPL3115A2{
   float getPressure(void);
   float getAltitude(void);
   float getTemperature(void);
+  void setSeaPressure(float pascal);
 
   void write8(uint8_t a, uint8_t d);
 
