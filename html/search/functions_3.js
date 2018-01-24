@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['write8',['write8',['../class_adafruit___m_p_l3115_a2.html#abee1f6b609faa4b88b8b07fb95e0685e',1,'Adafruit_MPL3115A2']]]
+  ['setseapressure',['setSeaPressure',['../class_adafruit___m_p_l3115_a2.html#a6f70aa952ccf2851b9ae43849dfc2545',1,'Adafruit_MPL3115A2']]]
 ];
