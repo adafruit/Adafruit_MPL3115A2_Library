@@ -192,6 +192,10 @@ float Adafruit_MPL3115A2::getTemperature() {
   t <<= 8;
   t |= _i2c->read(); // receive DATA
   t >>= 4;
+  
+  if (t & 0x800) {
+    t |= 0xF000;
+  }
 
   float temp = t;
   temp /= 16.0;
