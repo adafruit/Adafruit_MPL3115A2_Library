@@ -45,10 +45,10 @@ void loop() {
   Serial.print(pascals/3377); Serial.println(" Inches (Hg)");
 
   float altm = baro.getAltitude();
-  Serial.print(altm); Serial.println(" meters");
+  Serial.print(altm); Serial.println(" feet");
 
   float tempC = baro.getTemperature();
-  Serial.print(tempC); Serial.println("*C");
+  Serial.print(tempC); Serial.println("*F");
 
   delay(250);
 }
