@@ -33,11 +33,7 @@
 
 #define MPL3115A2_ADDRESS                       (0x60)    ///< default I2C address 1100000
 
-/**************************************************************************/
-/*!
-    @brief  MPL3115A2 registers
-*/
-/**************************************************************************/
+/** MPL3115A2 registers **/
 enum {
     MPL3115A2_REGISTER_STATUS        =       (0x00),
 
@@ -63,11 +59,7 @@ enum {
     MPL3115A2_BAR_IN_LSB         =           (0x15),
 };
 
-/**************************************************************************/
-/*!
-    @brief  MPL3115A2 status register bits
-*/
-/**************************************************************************/
+/** MPL3115A2 status register bits **/
 enum {
     MPL3115A2_REGISTER_STATUS_TDR       = 0x02,
     MPL3115A2_REGISTER_STATUS_PDR       = 0x04,
@@ -75,11 +67,7 @@ enum {
 };
 
 
-/**************************************************************************/
-/*!
-    @brief  MPL3115A2 PT DATA register bits
-*/
-/**************************************************************************/
+/** MPL3115A2 PT DATA register bits **/
 enum {
     MPL3115A2_PT_DATA_CFG       = 0x13,
     MPL3115A2_PT_DATA_CFG_TDEFE     = 0x01, 
@@ -87,11 +75,7 @@ enum {
     MPL3115A2_PT_DATA_CFG_DREM      = 0x04,
 };
 
-/**************************************************************************/
-/*!
-    @brief  MPL3115A2 control registers
-*/
-/**************************************************************************/
+/** MPL3115A2 control registers **/
 enum {
 
     MPL3115A2_CTRL_REG1     =    (0x26),
@@ -101,11 +85,7 @@ enum {
     MPL3115A2_CTRL_REG5         =    (0x2A),
 };
 
-/**************************************************************************/
-/*!
-    @brief  MPL3115A2 control register bits
-*/
-/**************************************************************************/
+/** MPL3115A2 control register bits **/
 enum {
     MPL3115A2_CTRL_REG1_SBYB   = 0x01,
     MPL3115A2_CTRL_REG1_OST     = 0x02,
@@ -116,11 +96,7 @@ enum {
 };
 
 
-/**************************************************************************/
-/*!
-    @brief  MPL3115A2 oversample values
-*/
-/**************************************************************************/
+/** MPL3115A2 oversample values **/
 enum {
     MPL3115A2_CTRL_REG1_OS1     = 0x00,
     MPL3115A2_CTRL_REG1_OS2     = 0x08,
@@ -134,13 +110,10 @@ enum {
 
 
 #define MPL3115A2_REGISTER_STARTCONVERSION (0x12) ///< start conversion
-/*=========================================================================*/
 
-/**************************************************************************/
-/*! 
-    @brief  Class that stores state and functions for interacting with MPL3115A2 altimeter
-*/
-/**************************************************************************/
+/*!
+ *  @brief  Class that stores state and functions for interacting with MPL3115A2 altimeter
+ */
 class Adafruit_MPL3115A2{
  public:
   Adafruit_MPL3115A2();
