@@ -37,7 +37,7 @@
 
 #include <Wire.h>
 
-#include "Adafruit_MPL3115A2async.h"
+#include "Adafruit_MPL3115A2.h"
 
 /**************************************************************************/
 /*!
