@@ -13,6 +13,7 @@
  * products from Adafruit!
  *
  * Written by Kevin "KTOWN" Townsend for Adafruit Industries.
+ * Updated with code for polled mode by A. Fitzhugh.
  *
  * BSD license, all text here must be included in any redistribution.
  *
@@ -29,7 +30,6 @@
 #else
  #include <Wire.h>
 #endif
-
 
 #define MPL3115A2_ADDRESS                       (0x60)    ///< default I2C address 1100000
 
@@ -152,7 +152,7 @@ class Adafruit_MPL3115A2{
 
   void write8(uint8_t a, uint8_t d);
 
- private:
+ protected:
   TwoWire *_i2c;
   uint8_t read8(uint8_t a);
   uint8_t mode;
@@ -170,4 +170,29 @@ class Adafruit_MPL3115A2{
   } ctrl_reg1;
   ctrl_reg1 _ctrl_reg1;
 
+};
+
+/**************************************************************************/
+/*! 
+    @brief  Class that stores state and functions for interacting with MPL3115A2 altimeter
+*/
+/**************************************************************************/
+class Adafruit_MPL3115A2async : public Adafruit_MPL3115A2{
+ public:
+  Adafruit_MPL3115A2async();
+  float getPressure(void);
+  float getAltitude(void);
+  float getTemperature(void);
+  void poll(bool quick = true);
+  unsigned int getstate();
+  bool isNewData();
+  void reset(bool reset=true);
+
+  boolean begin(TwoWire *twoWire);
+
+ protected:
+  float baro=NAN;
+  float temp=NAN;
+  float altitude=NAN;
+  uint8_t state=0;
 };
