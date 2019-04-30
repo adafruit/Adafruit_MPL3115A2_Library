@@ -19,6 +19,7 @@
 */
 /**************************************************************************/
 
+#include <Wire.h>
 #include "Adafruit_MPL3115A2.h"
 
 // Power by connecting Vin to 3-5V, GND to GND
