@@ -19,8 +19,8 @@
 */
 /**************************************************************************/
 
-#include <Wire.h>
 #include "Adafruit_MPL3115A2.h"
+#include <Wire.h>
 
 // Power by connecting Vin to 3-5V, GND to GND
 // Uses I2C - connect SCL to the SCL pin, SDA to SDA pin
@@ -40,15 +40,15 @@ void setup() {
   Serial.println("Adafruit_MPL3115A2 test!");
 
   // we're need to initialise this here so we can set the clock speed later
-  TwoWire myi2c;
+  TwoWire *myi2c = &Wire;
 
   // we don't need to block here - baro.poll is quick if the initialisation wasn't succesfull
-  if (!baro.begin(&myi2c)) {
+  if (!baro.begin(myi2c)) {
     Serial.println("Couldnt find sensor");
   }
   
   // a lot of the time for the loop is determined by i2c communications - set this as high as possible.
-  myi2c.setClock(400000);    // fast mode
+  myi2c->setClock(400000);    // fast mode
 
   // initialise stats
   counter = 0;
@@ -71,8 +71,7 @@ void loop() {
   // update the counter
   counter++;
 
-
-  // update max/min
+  // update max/min timings
   if (duration > maxtime) maxtime = duration; 
   if (duration < mintime) mintime = duration; 
 
