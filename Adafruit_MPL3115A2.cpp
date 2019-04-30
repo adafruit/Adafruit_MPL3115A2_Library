@@ -245,7 +245,6 @@ Adafruit_MPL3115A2async::Adafruit_MPL3115A2async() {
 /**************************************************************************/
 /*!
     @brief returns the state of the polling cycle
-    @param none
     @return unsigned int representing the state of the reader (0 to 10 or 101-110) 
 	    where 0 = uninitialised and >100 implies data has been refresehd since reset
 */
@@ -310,6 +309,7 @@ bool Adafruit_MPL3115A2async::isNewData() {
 /**************************************************************************/
 /*!
     @brief  sets the data as old so we can tell when new data is read
+    @param  reset pass true to reset, false to leave unchanged
 */
 /**************************************************************************/
 void Adafruit_MPL3115A2async::reset(bool reset) {
@@ -319,8 +319,7 @@ void Adafruit_MPL3115A2async::reset(bool reset) {
 /**************************************************************************/
 /*!
     @brief  needs to be called regularly to update the pressures and temperatures
-    @param  boolean: false = do as much as possible (slower per call, fewer calls to refresh);
-                     true = small steps (faster per call, more calls to refresh)
+    @param  quick false is slower per call, fewer calls to refresh; true is faster per call, more calls to refresh
 */
 /**************************************************************************/
 void Adafruit_MPL3115A2async::poll(bool quick) {
