@@ -174,7 +174,7 @@ class Adafruit_MPL3115A2{
 
 /**************************************************************************/
 /*! 
-    @brief  Class that stores state and functions for interacting with MPL3115A2 altimeter
+    @brief  Derived class that stores state and functions for interacting with MPL3115A2 altimeter in polled mode
 */
 /**************************************************************************/
 class Adafruit_MPL3115A2async : public Adafruit_MPL3115A2{

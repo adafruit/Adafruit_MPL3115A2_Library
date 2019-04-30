@@ -203,9 +203,6 @@ float Adafruit_MPL3115A2::getTemperature() {
   return temp;
 }
 
-
-
-
 /**************************************************************************/
 /*!
     @brief  read 1 byte of data at the specified address
@@ -239,7 +236,7 @@ void Adafruit_MPL3115A2::write8(uint8_t a, uint8_t d) {
 
 /**************************************************************************/
 /*!
-    @brief  Instantiates a new MPL3115A2 class
+    @brief  Instantiates a new MPL3115A2 class for polled mode
 */
 /**************************************************************************/
 Adafruit_MPL3115A2async::Adafruit_MPL3115A2async() {
@@ -249,7 +246,8 @@ Adafruit_MPL3115A2async::Adafruit_MPL3115A2async() {
 /*!
     @brief returns the state of the polling cycle
     @param none
-    @return number representing the state of the reader (0 to 10) where 0 = uninitialised
+    @return unsigned int representing the state of the reader (0 to 10 or 101-110) 
+	    where 0 = uninitialised and >100 implies data has been refresehd since reset
 */
 /**************************************************************************/
 unsigned int Adafruit_MPL3115A2async::getstate(){
@@ -322,7 +320,7 @@ void Adafruit_MPL3115A2async::reset(bool reset) {
 /*!
     @brief  needs to be called regularly to update the pressures and temperatures
     @param  boolean: false = do as much as possible (slower per call, fewer calls to refresh);
-    @param           true = small steps (faster per call, more calls to refresh)
+                     true = small steps (faster per call, more calls to refresh)
 */
 /**************************************************************************/
 void Adafruit_MPL3115A2async::poll(bool quick) {
@@ -342,8 +340,8 @@ void Adafruit_MPL3115A2async::poll(bool quick) {
     if ((read8(MPL3115A2_CTRL_REG1) & MPL3115A2_CTRL_REG1_OST)) break;
     state++;
     if (quick) break;
-  case 2:     // 
-  case 102:     // 
+  case 2:
+  case 102:
     _ctrl_reg1.bit.ALT = 0;
     write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
   
@@ -358,8 +356,8 @@ void Adafruit_MPL3115A2async::poll(bool quick) {
     if (!(sta & MPL3115A2_REGISTER_STATUS_PDR)) break;
     state++;
     if (quick) break;
-  case 4:     // 
-  case 104:     // 
+  case 4:
+  case 104:
     _i2c->beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
     _i2c->write(MPL3115A2_REGISTER_PRESSURE_MSB); 
     _i2c->endTransmission(false); // end transmission
@@ -381,8 +379,8 @@ void Adafruit_MPL3115A2async::poll(bool quick) {
     if ((read8(MPL3115A2_CTRL_REG1) & MPL3115A2_CTRL_REG1_OST)) break;
     state++;
     if (quick) break;
-  case 6:     // 
-  case 106:     // 
+  case 6:
+  case 106:
     _ctrl_reg1.bit.ALT = 1;
     write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
   
@@ -391,14 +389,14 @@ void Adafruit_MPL3115A2async::poll(bool quick) {
   
     state++;
     if (quick) break;
-  case 7:     // 
-  case 107:     // 
+  case 7:
+  case 107:
     sta = read8(MPL3115A2_REGISTER_STATUS);
     if (! (sta & MPL3115A2_REGISTER_STATUS_PDR)) break;
     state++;
     if (!quick) break;
-  case 8:     // 
-  case 108:     // 
+  case 8:
+  case 108:
     _i2c->beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
     _i2c->write(MPL3115A2_REGISTER_PRESSURE_MSB); 
     _i2c->endTransmission(false); // end transmission
@@ -419,8 +417,8 @@ void Adafruit_MPL3115A2async::poll(bool quick) {
     if (! (sta & MPL3115A2_REGISTER_STATUS_TDR)) break;
     state++;
     if (quick) break;
-  case 10:     // 
-  case 110:     // 
+  case 10:
+  case 110:
     _i2c->beginTransmission(MPL3115A2_ADDRESS); // start transmission to device 
     _i2c->write(MPL3115A2_REGISTER_TEMP_MSB); 
     _i2c->endTransmission(false); // end transmission
