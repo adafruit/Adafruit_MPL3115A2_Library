@@ -164,6 +164,9 @@ void Adafruit_MPL3115A2::setSeaPressure(float pascal) {
 float Adafruit_MPL3115A2::getTemperature() {
   int16_t t;
 
+  _ctrl_reg1.bit.OST = 1;
+  write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
+
   uint8_t sta = 0;
   while (!(sta & MPL3115A2_REGISTER_STATUS_TDR)) {
     sta = read8(MPL3115A2_REGISTER_STATUS);
