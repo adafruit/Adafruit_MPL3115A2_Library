@@ -66,7 +66,7 @@ $(function() {
 <div class="title">Adafruit_MPL3115A2.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;WProgram.h&quot;</code><br />
+<div class="textblock"><code>#include &quot;Arduino.h&quot;</code><br />
 <code>#include &lt;Wire.h&gt;</code><br />
 </div>
 <p><a href="_adafruit___m_p_l3115_a2_8h_source.html">Go to the source code of this file.</a></p>
@@ -90,7 +90,7 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a06fc87d81c62e9abb8790b6e5713c55b"><td class="memItemLeft" align="right" valign="top"><a id="a06fc87d81c62e9abb8790b6e5713c55b"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+<tr class="memitem:a06fc87d81c62e9abb8790b6e5713c55b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
 &#160;&#160;<b>MPL3115A2_REGISTER_STATUS</b> = (0x00), 
 <b>MPL3115A2_REGISTER_PRESSURE_MSB</b> = (0x01), 
 <b>MPL3115A2_REGISTER_PRESSURE_CSB</b> = (0x02), 
@@ -110,23 +110,20 @@ Enumerations</h2></td></tr>
 <b>MPL3115A2_BAR_IN_MSB</b> = (0x14), 
 <b>MPL3115A2_BAR_IN_LSB</b> = (0x15)
 <br />
- }<tr class="memdesc:a06fc87d81c62e9abb8790b6e5713c55b"><td class="mdescLeft">&#160;</td><td class="mdescRight">MPL3115A2 registers. <br /></td></tr>
-</td></tr>
+ }</td></tr>
 <tr class="separator:a06fc87d81c62e9abb8790b6e5713c55b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf764cbdea00d65edcd07bb9953ad2b7"><td class="memItemLeft" align="right" valign="top"><a id="adf764cbdea00d65edcd07bb9953ad2b7"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <b>MPL3115A2_REGISTER_STATUS_TDR</b> = 0x02, 
+<tr class="memitem:adf764cbdea00d65edcd07bb9953ad2b7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <b>MPL3115A2_REGISTER_STATUS_TDR</b> = 0x02, 
 <b>MPL3115A2_REGISTER_STATUS_PDR</b> = 0x04, 
 <b>MPL3115A2_REGISTER_STATUS_PTDR</b> = 0x08
- }<tr class="memdesc:adf764cbdea00d65edcd07bb9953ad2b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">MPL3115A2 status register bits. <br /></td></tr>
-</td></tr>
+ }</td></tr>
 <tr class="separator:adf764cbdea00d65edcd07bb9953ad2b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99fb83031ce9923c84392b4e92f956b5"><td class="memItemLeft" align="right" valign="top"><a id="a99fb83031ce9923c84392b4e92f956b5"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <b>MPL3115A2_PT_DATA_CFG</b> = 0x13, 
+<tr class="memitem:a99fb83031ce9923c84392b4e92f956b5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <b>MPL3115A2_PT_DATA_CFG</b> = 0x13, 
 <b>MPL3115A2_PT_DATA_CFG_TDEFE</b> = 0x01, 
 <b>MPL3115A2_PT_DATA_CFG_PDEFE</b> = 0x02, 
 <b>MPL3115A2_PT_DATA_CFG_DREM</b> = 0x04
- }<tr class="memdesc:a99fb83031ce9923c84392b4e92f956b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">MPL3115A2 PT DATA register bits. <br /></td></tr>
-</td></tr>
+ }</td></tr>
 <tr class="separator:a99fb83031ce9923c84392b4e92f956b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc6126af1d45847bc59afa0aa3216b04"><td class="memItemLeft" align="right" valign="top"><a id="abc6126af1d45847bc59afa0aa3216b04"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+<tr class="memitem:abc6126af1d45847bc59afa0aa3216b04"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
 &#160;&#160;<b>MPL3115A2_CTRL_REG1</b> = (0x26), 
 <b>MPL3115A2_CTRL_REG2</b> = (0x27), 
 <b>MPL3115A2_CTRL_REG3</b> = (0x28), 
@@ -134,10 +131,9 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<b>MPL3115A2_CTRL_REG5</b> = (0x2A)
 <br />
- }<tr class="memdesc:abc6126af1d45847bc59afa0aa3216b04"><td class="mdescLeft">&#160;</td><td class="mdescRight">MPL3115A2 control registers. <br /></td></tr>
-</td></tr>
+ }</td></tr>
 <tr class="separator:abc6126af1d45847bc59afa0aa3216b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc29c2ff13d900c2f185ee95427fb06c"><td class="memItemLeft" align="right" valign="top"><a id="adc29c2ff13d900c2f185ee95427fb06c"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+<tr class="memitem:adc29c2ff13d900c2f185ee95427fb06c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
 &#160;&#160;<b>MPL3115A2_CTRL_REG1_SBYB</b> = 0x01, 
 <b>MPL3115A2_CTRL_REG1_OST</b> = 0x02, 
 <b>MPL3115A2_CTRL_REG1_RST</b> = 0x04, 
@@ -146,10 +142,9 @@ Enumerations</h2></td></tr>
 &#160;&#160;<b>MPL3115A2_CTRL_REG1_ALT</b> = 0x80, 
 <b>MPL3115A2_CTRL_REG1_BAR</b> = 0x00
 <br />
- }<tr class="memdesc:adc29c2ff13d900c2f185ee95427fb06c"><td class="mdescLeft">&#160;</td><td class="mdescRight">MPL3115A2 control register bits. <br /></td></tr>
-</td></tr>
+ }</td></tr>
 <tr class="separator:adc29c2ff13d900c2f185ee95427fb06c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61dadd085c1777f559549e05962b2c9e"><td class="memItemLeft" align="right" valign="top"><a id="a61dadd085c1777f559549e05962b2c9e"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+<tr class="memitem:a61dadd085c1777f559549e05962b2c9e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
 &#160;&#160;<b>MPL3115A2_CTRL_REG1_OS1</b> = 0x00, 
 <b>MPL3115A2_CTRL_REG1_OS2</b> = 0x08, 
 <b>MPL3115A2_CTRL_REG1_OS4</b> = 0x10, 
@@ -160,8 +155,7 @@ Enumerations</h2></td></tr>
 <b>MPL3115A2_CTRL_REG1_OS64</b> = 0x30, 
 <b>MPL3115A2_CTRL_REG1_OS128</b> = 0x38
 <br />
- }<tr class="memdesc:a61dadd085c1777f559549e05962b2c9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">MPL3115A2 oversample values. <br /></td></tr>
-</td></tr>
+ }</td></tr>
 <tr class="separator:a61dadd085c1777f559549e05962b2c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -170,7 +164,98 @@ Enumerations</h2></td></tr>
 <p>Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!</p>
 <p>Written by Kevin "KTOWN" Townsend for Adafruit Industries.</p>
 <p>BSD license, all text here must be included in any redistribution. </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a06fc87d81c62e9abb8790b6e5713c55b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06fc87d81c62e9abb8790b6e5713c55b">&#9670;&nbsp;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>MPL3115A2 registers </p>
+
+</div>
+</div>
+<a id="adf764cbdea00d65edcd07bb9953ad2b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf764cbdea00d65edcd07bb9953ad2b7">&#9670;&nbsp;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>MPL3115A2 status register bits </p>
+
+</div>
+</div>
+<a id="a99fb83031ce9923c84392b4e92f956b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99fb83031ce9923c84392b4e92f956b5">&#9670;&nbsp;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>MPL3115A2 PT DATA register bits </p>
+
+</div>
+</div>
+<a id="abc6126af1d45847bc59afa0aa3216b04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc6126af1d45847bc59afa0aa3216b04">&#9670;&nbsp;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>MPL3115A2 control registers </p>
+
+</div>
+</div>
+<a id="adc29c2ff13d900c2f185ee95427fb06c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc29c2ff13d900c2f185ee95427fb06c">&#9670;&nbsp;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>MPL3115A2 control register bits </p>
+
+</div>
+</div>
+<a id="a61dadd085c1777f559549e05962b2c9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61dadd085c1777f559549e05962b2c9e">&#9670;&nbsp;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>MPL3115A2 oversample values </p>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
