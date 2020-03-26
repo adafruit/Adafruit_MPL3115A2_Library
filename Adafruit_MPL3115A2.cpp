@@ -41,7 +41,7 @@ Adafruit_MPL3115A2::Adafruit_MPL3115A2() {}
 
 /*!
  *   @brief  Setups the HW (reads coefficients values, etc.)
- *   @param  twoWire 
+ *   @param  twoWire
  *           Optional TwoWire I2C object
  *   @return true on successful startup, false otherwise
  */
@@ -194,7 +194,7 @@ float Adafruit_MPL3115A2::getTemperature() {
 
 /*!
  *  @brief  read 1 byte of data at the specified address
- *  @param  a 
+ *  @param  a
  *          the address to read
  *  @return the read data byte
  */
@@ -210,9 +210,9 @@ uint8_t Adafruit_MPL3115A2::read8(uint8_t a) {
 
 /*!
  *  @brief  write a byte of data to the specified address
- *  @param  a 
+ *  @param  a
  *          the address to write to
- *  @param  d 
+ *  @param  d
  *          the byte to write
  */
 void Adafruit_MPL3115A2::write8(uint8_t a, uint8_t d) {
