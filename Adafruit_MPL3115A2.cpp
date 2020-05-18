@@ -158,6 +158,18 @@ void Adafruit_MPL3115A2::setSeaPressure(float pascal) {
 }
 
 /*!
+ @brief  Make altitude offsets as required
+ @param meters the altitude to use as the baseline
+ */
+void Adafruit_MPL3115A2::setAltOffset(float offsetAltitude) {
+    int8_t offset = offsetAltitude;
+    _i2c->beginTransmission(MPL3115A2_ADDRESS);
+    _i2c->write((int8_t)MPL3115A2_OFF_H);
+    _i2c->write((int8_t)(offset));
+    _i2c->endTransmission(false);
+}
+
+/*!
  *  @brief  Gets the floating-point temperature in Centigrade
  *  @return temperature reading in Centigrade as a floating-point value
  */
