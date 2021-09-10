@@ -19,36 +19,35 @@
 */
 /**************************************************************************/
 
-#include <Wire.h>
 #include <Adafruit_MPL3115A2.h>
 
-// Power by connecting Vin to 3-5V, GND to GND
-// Uses I2C - connect SCL to the SCL pin, SDA to SDA pin
-// See the Wire tutorial for pinouts for each Arduino
-// http://arduino.cc/en/reference/wire
-Adafruit_MPL3115A2 baro = Adafruit_MPL3115A2();
+Adafruit_MPL3115A2 baro;
 
 void setup() {
   Serial.begin(9600);
+  while(!Serial);
   Serial.println("Adafruit_MPL3115A2 test!");
+
+  if (!baro.begin()) {
+    Serial.println("Could not find sensor. Check wiring.");
+    while(1);
+  }
+
+  // use to set sea level pressure for current location
+  // this is needed for accurate altitude measurement
+  // STD SLP = 1013.26 hPa
+  baro.setSeaPressure(1013.26);
 }
 
 void loop() {
-  if (! baro.begin()) {
-    Serial.println("Couldnt find sensor");
-    return;
-  }
-  
-  float pascals = baro.getPressure();
-  // Our weather page presents pressure in Inches (Hg)
-  // Use http://www.onlineconversion.com/pressure.htm for other units
-  Serial.print(pascals/3377); Serial.println(" Inches (Hg)");
+  float pressure = baro.getPressure();
+  float altitude = baro.getAltitude();
+  float temperature = baro.getTemperature();
 
-  float altm = baro.getAltitude();
-  Serial.print(altm); Serial.println(" meters");
-
-  float tempC = baro.getTemperature();
-  Serial.print(tempC); Serial.println("*C");
+  Serial.println("-----------------");
+  Serial.print("pressure = "); Serial.print(pressure); Serial.println(" hPa");
+  Serial.print("altitude = "); Serial.print(altitude); Serial.println(" m");
+  Serial.print("temperature = "); Serial.print(temperature); Serial.println(" C");
 
   delay(250);
 }

@@ -22,7 +22,7 @@
 #define __MPL3115A2__
 
 #include "Arduino.h"
-#include <Wire.h>
+#include <Adafruit_I2CDevice.h>
 
 #define MPL3115A2_ADDRESS (0x60) ///< default I2C address 1100000
 
@@ -112,12 +112,12 @@ public:
   float getPressure(void);
   float getAltitude(void);
   float getTemperature(void);
-  void setSeaPressure(float pascal);
+  void setSeaPressure(float SLP);
 
   void write8(uint8_t a, uint8_t d);
 
 private:
-  TwoWire *_i2c;
+  Adafruit_I2CDevice *i2c_dev = NULL; ///< Pointer to I2C bus interface
   uint8_t read8(uint8_t a);
   uint8_t mode;
 
