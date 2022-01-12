@@ -21,6 +21,8 @@
 
 #include <Adafruit_MPL3115A2.h>
 
+#undef TESTNONBLOCKING
+
 Adafruit_MPL3115A2 baro;
 
 void setup() {
@@ -39,6 +41,20 @@ void setup() {
   baro.setSeaPressure(1013.26);
 }
 
+#if defined(TESTNONBLOCKING)
+void loop() {
+  float pressure = 0;
+  uint8_t phase = baro.getPressureNonBlocking(pressure);
+  // If phase is zero, we have valid data, otherwise, we need to call again.
+  if (!phase)
+  {
+    Serial.print(pressure); Serial.println(" hPa");
+  }
+  else
+    Serial.println("...");
+  delay(100);
+}
+#else
 void loop() {
   float pressure = baro.getPressure();
   float altitude = baro.getAltitude();
@@ -51,3 +67,4 @@ void loop() {
 
   delay(250);
 }
+#endif
