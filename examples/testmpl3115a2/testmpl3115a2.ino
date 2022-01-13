@@ -27,12 +27,14 @@ Adafruit_MPL3115A2 baro;
 
 void setup() {
   Serial.begin(9600);
-  while(!Serial);
+  while (!Serial)
+    ;
   Serial.println("Adafruit_MPL3115A2 test!");
 
   if (!baro.begin()) {
     Serial.println("Could not find sensor. Check wiring.");
-    while(1);
+    while (1)
+      ;
   }
 
   // use to set sea level pressure for current location
@@ -46,11 +48,10 @@ void loop() {
   float pressure = 0;
   uint8_t phase = baro.getPressureNonBlocking(pressure);
   // If phase is zero, we have valid data, otherwise, we need to call again.
-  if (!phase)
-  {
-    Serial.print(pressure); Serial.println(" hPa");
-  }
-  else
+  if (!phase) {
+    Serial.print(pressure);
+    Serial.println(" hPa");
+  } else
     Serial.println("...");
   delay(100);
 }
@@ -61,9 +62,15 @@ void loop() {
   float temperature = baro.getTemperature();
 
   Serial.println("-----------------");
-  Serial.print("pressure = "); Serial.print(pressure); Serial.println(" hPa");
-  Serial.print("altitude = "); Serial.print(altitude); Serial.println(" m");
-  Serial.print("temperature = "); Serial.print(temperature); Serial.println(" C");
+  Serial.print("pressure = ");
+  Serial.print(pressure);
+  Serial.println(" hPa");
+  Serial.print("altitude = ");
+  Serial.print(altitude);
+  Serial.println(" m");
+  Serial.print("temperature = ");
+  Serial.print(temperature);
+  Serial.println(" C");
 
   delay(250);
 }

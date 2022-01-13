@@ -102,38 +102,36 @@ float Adafruit_MPL3115A2::getPressure() {
 /*!
  *  @brief Get barometric pressure, non-blocking.
  *  @param pressure Sensed pressure in hPa.
- *  @return phase of the read operation. Returns 0 if pressure was written with valid data. Returns non-zero when function needs to be called again.
+ *  @return phase of the read operation. Returns 0 if pressure was written with
+ * valid data. Returns non-zero when function needs to be called again.
  */
-uint8_t Adafruit_MPL3115A2::getPressureNonBlocking(float& pressure)
-{
+uint8_t Adafruit_MPL3115A2::getPressureNonBlocking(float &pressure) {
   uint32_t pval;
   uint8_t wbuf[1] = {MPL3115A2_REGISTER_PRESSURE_MSB};
-  uint8_t rbuf[5] = {0,0,0,0,0};
-  switch(nbphase)
-  {
-    case MPL3115A2_PHASE_VIRGIN:
-    case MPL3115A2_PHASE_COMPLETE:
-      // Start a new measurement cycle.
-      _ctrl_reg1.bit.ALT = 0; // barometer (pressure) mode
-      _ctrl_reg1.bit.OST = 1; // initatiate a one-shot measurement
-      write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
-      nbphase = MPL3115A2_PHASE_REQUESTED;
-      break;
-    case MPL3115A2_PHASE_REQUESTED:
-      if (read8(MPL3115A2_REGISTER_STATUS) & MPL3115A2_REGISTER_STATUS_PDR)
+  uint8_t rbuf[5] = {0, 0, 0, 0, 0};
+  switch (nbphase) {
+  case MPL3115A2_PHASE_VIRGIN:
+  case MPL3115A2_PHASE_COMPLETE:
+    // Start a new measurement cycle.
+    _ctrl_reg1.bit.ALT = 0; // barometer (pressure) mode
+    _ctrl_reg1.bit.OST = 1; // initatiate a one-shot measurement
+    write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
+    nbphase = MPL3115A2_PHASE_REQUESTED;
+    break;
+  case MPL3115A2_PHASE_REQUESTED:
+    if (read8(MPL3115A2_REGISTER_STATUS) & MPL3115A2_REGISTER_STATUS_PDR)
       nbphase = MPL3115A2_PHASE_MEASURED;
-      break;
-    case MPL3115A2_PHASE_MEASURED:
-      i2c_dev->write(wbuf,1,false);
-      i2c_dev->read(rbuf,5);
-      pval = uint32_t(rbuf[0]) << 16 | uint32_t(rbuf[1]) << 8 | uint32_t(rbuf[2]);
-      pressure = pval / 6400.0;
-      nbphase = MPL3115A2_PHASE_COMPLETE;
-      break;
+    break;
+  case MPL3115A2_PHASE_MEASURED:
+    i2c_dev->write(wbuf, 1, false);
+    i2c_dev->read(rbuf, 5);
+    pval = uint32_t(rbuf[0]) << 16 | uint32_t(rbuf[1]) << 8 | uint32_t(rbuf[2]);
+    pressure = pval / 6400.0;
+    nbphase = MPL3115A2_PHASE_COMPLETE;
+    break;
   }
   return nbphase;
 }
-
 
 /*!
  *  @brief  Get altitude

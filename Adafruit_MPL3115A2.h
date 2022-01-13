@@ -101,10 +101,12 @@ enum {
 
 /** Phases for non blocking reads **/
 enum {
-  MPL3115A2_PHASE_VIRGIN = 0x01,	//!< No non-blocking operations have been done, yet.
-  MPL3115A2_PHASE_REQUESTED = 0x02,	//!< A measurement was requested.
-  MPL3115A2_PHASE_MEASURED = 0x03,	//!< A measurement was completed.
-  MPL3115A2_PHASE_COMPLETE = 0x00,	//!< The read op has been completed: we have valid data.
+  MPL3115A2_PHASE_VIRGIN =
+      0x01, //!< No non-blocking operations have been done, yet.
+  MPL3115A2_PHASE_REQUESTED = 0x02, //!< A measurement was requested.
+  MPL3115A2_PHASE_MEASURED = 0x03,  //!< A measurement was completed.
+  MPL3115A2_PHASE_COMPLETE =
+      0x00, //!< The read op has been completed: we have valid data.
 };
 
 #define MPL3115A2_REGISTER_STARTCONVERSION (0x12) ///< start conversion
@@ -118,7 +120,7 @@ public:
   Adafruit_MPL3115A2();
   boolean begin(TwoWire *twoWire = &Wire);
   float getPressure(void);
-  uint8_t getPressureNonBlocking(float& pressure); //!< Returns phase.
+  uint8_t getPressureNonBlocking(float &pressure); //!< Returns phase.
   float getAltitude(void);
   float getTemperature(void);
   void setSeaPressure(float SLP);
@@ -129,7 +131,7 @@ private:
   Adafruit_I2CDevice *i2c_dev = NULL; ///< Pointer to I2C bus interface
   uint8_t read8(uint8_t a);
   uint8_t mode;
-  uint8_t nbphase;	//!< Phase in the non-blocking data read.
+  uint8_t nbphase; //!< Phase in the non-blocking data read.
 
   typedef union {
     struct {
