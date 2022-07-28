@@ -126,6 +126,22 @@ float Adafruit_MPL3115A2::getAltitude() {
 }
 
 /*!
+ *  @brief  Get the altitude offset
+ *  @return Offset value in meters
+ */
+int8_t Adafruit_MPL3115A2::getAltitudeOffset(void) {
+  return int(read8(MPL3115A2_OFF_H));
+}
+
+/*!
+ *  @brief  Set the altitude offset
+ *  @param offset Offset value in meters, from -127 to 128
+ */
+void Adafruit_MPL3115A2::setAltitudeOffset(int8_t offset) {
+  write8(MPL3115A2_OFF_H, uint8_t(offset));
+}
+
+/*!
  *  @brief  Set the local sea level pressure
  *  @param SLP sea level pressure in hPa
  */
