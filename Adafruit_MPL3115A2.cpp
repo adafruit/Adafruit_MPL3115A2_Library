@@ -130,7 +130,7 @@ float Adafruit_MPL3115A2::getAltitude() {
  *  @return Offset value in meters
  */
 int8_t Adafruit_MPL3115A2::getAltitudeOffset(void) {
-  return int(read8(MPL3115A2_OFF_H));
+  return int8_t(read8(MPL3115A2_OFF_H));
 }
 
 /*!
