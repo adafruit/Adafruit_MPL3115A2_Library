@@ -99,6 +99,17 @@ enum {
   MPL3115A2_CTRL_REG1_OS128 = 0x38,
 };
 
+typedef enum {
+  MPL3115A2_BAROMETER = 0,
+  MPL3115A2_ALTIMETER,
+} mpl3115a2_mode_t;
+
+typedef enum {
+  MPL3115A2_PRESSURE,
+  MPL3115A2_ALTITUDE,
+  MPL3115A2_TEMPERATURE,
+} mpl3115a2_meas_t;
+
 #define MPL3115A2_REGISTER_STARTCONVERSION (0x12) ///< start conversion
 
 /*!
@@ -114,12 +125,17 @@ public:
   float getTemperature(void);
   void setSeaPressure(float SLP);
 
+  void setMode(mpl3115a2_mode_t mode = MPL3115A2_BAROMETER);
+  void startOneShot(void);
+  bool conversionComplete(void);
+  float getLastConversionResults(mpl3115a2_meas_t value = MPL3115A2_PRESSURE);
+
   void write8(uint8_t a, uint8_t d);
 
 private:
   Adafruit_I2CDevice *i2c_dev = NULL; ///< Pointer to I2C bus interface
   uint8_t read8(uint8_t a);
-  uint8_t mode;
+  mpl3115a2_mode_t currentMode;
 
   typedef union {
     struct {

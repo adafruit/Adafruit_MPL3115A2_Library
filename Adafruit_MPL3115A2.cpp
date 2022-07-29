@@ -60,6 +60,7 @@ boolean Adafruit_MPL3115A2::begin(TwoWire *twoWire) {
     delay(10);
 
   // set oversampling and altitude mode
+  currentMode = MPL3115A2_ALTIMETER;
   _ctrl_reg1.reg = MPL3115A2_CTRL_REG1_OS128 | MPL3115A2_CTRL_REG1_ALT;
   write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
 
@@ -76,26 +77,12 @@ boolean Adafruit_MPL3115A2::begin(TwoWire *twoWire) {
  *  @return pressure reading as a floating point value in hPa
  */
 float Adafruit_MPL3115A2::getPressure() {
-  // wait for one-shot to clear before proceeding
-  while (read8(MPL3115A2_CTRL_REG1) & MPL3115A2_CTRL_REG1_OST)
+  if (currentMode != MPL3115A2_BAROMETER)
+    setMode(MPL3115A2_BAROMETER);
+  startOneShot();
+  while (!conversionComplete())
     delay(10);
-
-  // configure and initiate measurement
-  _ctrl_reg1.bit.ALT = 0; // barometer (pressure) mode
-  _ctrl_reg1.bit.OST = 1; // initatiate a one-shot measurement
-  write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
-
-  // poll status to wait for conversion complete
-  while (!(read8(MPL3115A2_REGISTER_STATUS) & MPL3115A2_REGISTER_STATUS_PDR))
-    delay(10);
-
-  // read data
-  uint32_t pressure;
-  uint8_t buffer[5] = {MPL3115A2_REGISTER_PRESSURE_MSB, 0, 0, 0, 0};
-  i2c_dev->write_then_read(buffer, 1, buffer, 5);
-  pressure = uint32_t(buffer[0]) << 16 | uint32_t(buffer[1]) << 8 |
-             uint32_t(buffer[2]);
-  return float(pressure) / 6400.0;
+  return getLastConversionResults(MPL3115A2_PRESSURE);
 }
 
 /*!
@@ -103,26 +90,12 @@ float Adafruit_MPL3115A2::getPressure() {
  *  @return altitude reading as a floating-point value in meters
  */
 float Adafruit_MPL3115A2::getAltitude() {
-  // wait for one-shot to clear before proceeding
-  while (read8(MPL3115A2_CTRL_REG1) & MPL3115A2_CTRL_REG1_OST)
+  if (currentMode != MPL3115A2_ALTIMETER)
+    setMode(MPL3115A2_ALTIMETER);
+  startOneShot();
+  while (!conversionComplete())
     delay(10);
-
-  // configure and initiate measurement
-  _ctrl_reg1.bit.ALT = 1; // altimeter mode
-  _ctrl_reg1.bit.OST = 1; // initatiate a one-shot measurement
-  write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
-
-  // poll status to wait for conversion complete
-  while (!(read8(MPL3115A2_REGISTER_STATUS) & MPL3115A2_REGISTER_STATUS_PDR))
-    delay(10);
-
-  // read data
-  int32_t alt;
-  uint8_t buffer[5] = {MPL3115A2_REGISTER_PRESSURE_MSB, 0, 0, 0, 0};
-  i2c_dev->write_then_read(buffer, 1, buffer, 5);
-  alt = uint32_t(buffer[0]) << 24 | uint32_t(buffer[1]) << 16 |
-        uint32_t(buffer[2]) << 8;
-  return float(alt) / 65536.0;
+  return getLastConversionResults(MPL3115A2_ALTITUDE);
 }
 
 /*!
@@ -148,24 +121,79 @@ void Adafruit_MPL3115A2::setSeaPressure(float SLP) {
  *  @return temperature reading as a floating-point value in degC
  */
 float Adafruit_MPL3115A2::getTemperature() {
-  // wait for one-shot to clear before proceeding
-  while (read8(MPL3115A2_CTRL_REG1) & MPL3115A2_CTRL_REG1_OST)
+  startOneShot();
+  while (!conversionComplete())
     delay(10);
+  return getLastConversionResults(MPL3115A2_TEMPERATURE);
+}
 
-  // initatiate a one-shot measurement
+/*!
+ *  @brief Set measurement mode.
+ *  @param mode The measurement mode. Can be MPL3115A2_BAROMETER or
+ * MPL3115A2_ALTIMETER.
+ */
+void Adafruit_MPL3115A2::setMode(mpl3115a2_mode_t mode) {
+  // assumes STANDBY mode
+  _ctrl_reg1.reg = read8(MPL3115A2_CTRL_REG1);
+  _ctrl_reg1.bit.ALT = mode;
+  write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
+  currentMode = mode;
+}
+
+/*!
+ *  @brief Initiate a one-shot measurement.
+ */
+void Adafruit_MPL3115A2::startOneShot(void) {
+  // wait for one-shot to clear before proceeding
+  _ctrl_reg1.reg = read8(MPL3115A2_CTRL_REG1);
+  while (_ctrl_reg1.bit.OST) {
+    delay(10);
+    _ctrl_reg1.reg = read8(MPL3115A2_CTRL_REG1);
+  }
+  // initiate one-shot measurement
   _ctrl_reg1.bit.OST = 1;
   write8(MPL3115A2_CTRL_REG1, _ctrl_reg1.reg);
+}
 
-  // poll status to wait for conversion complete
-  while (!(read8(MPL3115A2_REGISTER_STATUS) & MPL3115A2_REGISTER_STATUS_PTDR))
-    delay(10);
+/*!
+ *  @brief Check for measurement conversion completion.
+ *  @return true if conversion is complete, otherwise false.
+ */
+bool Adafruit_MPL3115A2::conversionComplete(void) {
+  // PTDR bit works for either pressure or temperature
+  // 0: No new set of data ready
+  // 1: A new set of data is ready
+  return ((read8(MPL3115A2_REGISTER_STATUS) & MPL3115A2_REGISTER_STATUS_PTDR) !=
+          0);
+}
 
-  // read data
-  int16_t t;
+/*!
+ *  @brief Get results from last measurement.
+ *  @param value Measurement value, can be   MPL3115A2_PRESSURE,
+ * MPL3115A2_ALTITUDE, or MPL3115A2_TEMPERATURE
+ *  @return The measurement value.
+ */
+float Adafruit_MPL3115A2::getLastConversionResults(mpl3115a2_meas_t value) {
   uint8_t buffer[5] = {MPL3115A2_REGISTER_PRESSURE_MSB, 0, 0, 0, 0};
   i2c_dev->write_then_read(buffer, 1, buffer, 5);
-  t = uint16_t(buffer[3]) << 8 | uint16_t(buffer[4]);
-  return float(t) / 256.0;
+
+  switch (value) {
+  case MPL3115A2_PRESSURE:
+    uint32_t pressure;
+    pressure = uint32_t(buffer[0]) << 16 | uint32_t(buffer[1]) << 8 |
+               uint32_t(buffer[2]);
+    return float(pressure) / 6400.0;
+  case MPL3115A2_ALTITUDE:
+    int32_t alt;
+    alt = uint32_t(buffer[0]) << 24 | uint32_t(buffer[1]) << 16 |
+          uint32_t(buffer[2]) << 8;
+    return float(alt) / 65536.0;
+  case MPL3115A2_TEMPERATURE:
+  default:
+    int16_t t;
+    t = uint16_t(buffer[3]) << 8 | uint16_t(buffer[4]);
+    return float(t) / 256.0;
+  }
 }
 
 /*!
