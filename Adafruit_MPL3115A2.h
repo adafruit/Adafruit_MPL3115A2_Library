@@ -99,11 +99,13 @@ enum {
   MPL3115A2_CTRL_REG1_OS128 = 0x38,
 };
 
+/** MPL3115A2 measurement modes **/
 typedef enum {
   MPL3115A2_BAROMETER = 0,
   MPL3115A2_ALTIMETER,
 } mpl3115a2_mode_t;
 
+/** MPL3115A2 measurement types **/
 typedef enum {
   MPL3115A2_PRESSURE,
   MPL3115A2_ALTITUDE,
