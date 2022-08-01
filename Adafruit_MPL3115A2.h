@@ -50,6 +50,8 @@ enum {
 
   MPL3115A2_BAR_IN_MSB = (0x14),
   MPL3115A2_BAR_IN_LSB = (0x15),
+
+  MPL3115A2_OFF_H = (0x2D),
 };
 
 /** MPL3115A2 status register bits **/
@@ -111,6 +113,8 @@ public:
   boolean begin(TwoWire *twoWire = &Wire);
   float getPressure(void);
   float getAltitude(void);
+  int8_t getAltitudeOffset(void);
+  void setAltitudeOffset(int8_t offset);
   float getTemperature(void);
   void setSeaPressure(float SLP);
 
