@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['setaltitudeoffset',['setAltitudeOffset',['../class_adafruit___m_p_l3115_a2.html#a7de54b94f5f2c216c26e25a625f350ce',1,'Adafruit_MPL3115A2']]],
-  ['setseapressure',['setSeaPressure',['../class_adafruit___m_p_l3115_a2.html#a44aefc444fd269b09306b173c99027ee',1,'Adafruit_MPL3115A2']]]
+  ['getaltitude',['getAltitude',['../class_adafruit___m_p_l3115_a2.html#a444af0cbdc954dbcc55df41efc46a151',1,'Adafruit_MPL3115A2']]],
+  ['getaltitudeoffset',['getAltitudeOffset',['../class_adafruit___m_p_l3115_a2.html#a20b46c60be4d0588dd3591f2c36c3a69',1,'Adafruit_MPL3115A2']]],
+  ['getlastconversionresults',['getLastConversionResults',['../class_adafruit___m_p_l3115_a2.html#a49294975b932b7084bcd94f5716eda06',1,'Adafruit_MPL3115A2']]],
+  ['getpressure',['getPressure',['../class_adafruit___m_p_l3115_a2.html#a768b299932bb572db28b9ec1124869d4',1,'Adafruit_MPL3115A2']]],
+  ['gettemperature',['getTemperature',['../class_adafruit___m_p_l3115_a2.html#ad45f0aaa1390fe0ed53ac407ab97a70d',1,'Adafruit_MPL3115A2']]]
 ];
