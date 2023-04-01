@@ -130,8 +130,7 @@ public:
   void setAltitudeOffset(int8_t offset);
   float getTemperature(void);
   void setSeaPressure(float SLP);
-  void setOversampleRate(
-      int8_t sampleRate); ///< sampleRate from 0 to 7. Smaller is faster
+  void setOversampleRate(int8_t sampleRate); ///< sampleRate from 0 to 7
   void setMode(mpl3115a2_mode_t mode = MPL3115A2_BAROMETER);
   void startOneShot(void);
   bool conversionComplete(void);
