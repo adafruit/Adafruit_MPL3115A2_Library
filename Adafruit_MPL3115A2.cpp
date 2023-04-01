@@ -134,18 +134,18 @@ void Adafruit_MPL3115A2::setSeaPressure(float SLP) {
 
 /*!
  *    Call with a rate from 0 to 7. See page 33 for table of ratios.
- *    Sets the over sample rate. Datasheet calls for 128 but you can set it 
+ *    Sets the over sample rate. Datasheet calls for 128 but you can set it
  *    from 1 to 128 samples. The higher the oversample rate the greater
  *    the time between data samples.
- */ 
-void Adafruit_MPL3115A2::setOversampleRate(int8_t sampleRate)
-{
-  if(sampleRate > 7) sampleRate = 7; //OS cannot be larger than 0b.0111
-  sampleRate <<= 3; //Align it for the CTRL_REG1 register
-  
-  int8_t tempSetting = read8(MPL3115A2_CTRL_REG1); //Read current settings
-  tempSetting &= 0xc7; // B11000111; //Clear out old OS bits
-  tempSetting |= sampleRate; //Mask in new OS bits
+ */
+void Adafruit_MPL3115A2::setOversampleRate(int8_t sampleRate) {
+  if (sampleRate > 7)
+    sampleRate = 7; // OS cannot be larger than 0b.0111
+  sampleRate <<= 3; // Align it for the CTRL_REG1 register
+
+  int8_t tempSetting = read8(MPL3115A2_CTRL_REG1); // Read current settings
+  tempSetting &= 0xc7;       // B11000111; //Clear out old OS bits
+  tempSetting |= sampleRate; // Mask in new OS bits
   write8(MPL3115A2_CTRL_REG1, tempSetting);
 }
 
