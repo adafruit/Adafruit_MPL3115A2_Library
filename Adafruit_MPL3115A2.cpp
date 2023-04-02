@@ -133,7 +133,7 @@ void Adafruit_MPL3115A2::setSeaPressure(float SLP) {
 }
 
 /*!
- *  @brief Set the oversample rate 
+ *  @brief Set the oversample rate
  *  @param setOversampleRate over sample rate from 0 to 7
  * The higher the oversample rate the more time between samples
  */
